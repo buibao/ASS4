@@ -223,8 +223,10 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			int playerTwoLeft = playerTwoX;
 
 			// draw dashed line down center
+			g.setColor(Color.GREEN);
 			for (int lineY = 0; lineY < getHeight(); lineY += 50) {
-				g.drawLine(250, lineY, 250, lineY + 25);
+				g.drawLine(240, lineY, 240, lineY + 25);
+			
 			}
 
 			// draw "goal lines" on each side
