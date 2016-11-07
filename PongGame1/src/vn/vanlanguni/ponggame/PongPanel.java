@@ -63,10 +63,10 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	private int playerOneHeight = 50;
 
 	/** Player 2's paddle: position and size */
-	private int playerTwoX = 485;
+	private int playerTwoX = 475;
 	private int playerTwoY = 205;
 	private int playerTwoWidth = 10;
-	private int playerTwoHeight = 50;
+	private int playerTwoHeight = 60;
 
 	/** Speed of the paddle - How fast the paddle move. */
 	private int paddleSpeed = 5;
@@ -112,7 +112,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			// move player 2
 			// Move up if after moving paddle is not outside the screen
-			if (upPressed && playerTwoY - paddleSpeed > 0) {
+			if (upPressed && playerTwoY - paddleSpeed >= 0) {
 				playerTwoY -= paddleSpeed;
 			}
 			// Move down if after moving paddle is not outside the screen
@@ -290,8 +290,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		} else if (gameOver && e.getKeyCode() == KeyEvent.VK_SPACE) {
 			gameOver = false;
 			showTitleScreen = true;
-			playerOneY = 250;
-			playerTwoY = 250;
+			playerOneY = 205;
+			playerTwoY = 205;
 			ballX = 235;
 			ballY = 215;
 		}
