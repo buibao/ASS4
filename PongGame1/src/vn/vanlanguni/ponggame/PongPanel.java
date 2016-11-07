@@ -267,7 +267,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			}
 
 			// Draw Restart message
-			g.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
+			//g.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
+			g.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
+			g.drawString("Press 'space' to restart.", 175, 400);
 			// TODO Draw a restart message
 		}
 	}
