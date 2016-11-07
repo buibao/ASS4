@@ -129,7 +129,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			int nextBallRight = ballX + diameter + ballDeltaX;
 			// FIXME Something not quite right here
 			int nextBallTop = ballY + ballDeltaY;
-			int nextBallBottom = ballY + diameter+ ballDeltaY;
+			int nextBallBottom = ballY + diameter + ballDeltaY;
 
 			// Player 1's paddle position
 			int playerOneRight = playerOneX + playerOneWidth;
@@ -226,7 +226,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			g.setColor(Color.GREEN);
 			for (int lineY = 0; lineY < getHeight(); lineY += 50) {
 				g.drawLine(240, lineY, 240, lineY + 25);
-			
+
 			}
 
 			// draw "goal lines" on each side
@@ -267,7 +267,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			}
 
 			// Draw Restart message
-			//g.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
+			// g.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
 			g.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
 			g.drawString("Press 'space' to restart.", 175, 400);
 			// TODO Draw a restart message
@@ -300,6 +300,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			playerTwoY = 205;
 			ballX = 235;
 			ballY = 215;
+			playerOneScore=0;
+			playerTwoScore=0;
 		}
 	}
 
