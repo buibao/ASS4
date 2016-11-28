@@ -24,6 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -34,6 +35,7 @@ import javax.swing.Timer;
  *
  */
 public class PongPanel extends JPanel implements ActionListener, KeyListener {
+	private SoundPlayer chamthanh, chamnhanvat;
 	private static final long serialVersionUID = -1097341635155021546L;
 
 	private boolean showTitleScreen = true;
@@ -100,6 +102,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			/* Playing mode */
 
+			chamnhanvat = new SoundPlayer(new File("Sounds\\beep-21.wav"));
+			chamthanh = new SoundPlayer(new File("Sounds\\beep-07.wav"));
+
 			// move player 1
 			// Move up if after moving, paddle is not outside the screen
 			if (wPressed && playerOneY - paddleSpeed >= 0) {
@@ -144,6 +149,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			// ball bounces off top and bottom of screen
 			if (nextBallTop < 0 || nextBallBottom > getHeight()) {
 				ballDeltaY *= -1;
+				chamthanh.play();
 			}
 
 			// will the ball go off the left side?
@@ -164,6 +170,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 					// If the ball hitting the paddle, it will bounce back
 					// FIXME Something wrong here
 					ballDeltaX *= -1;
+					chamthanh.play();
 				}
 			}
 
@@ -186,6 +193,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 					// If the ball hitting the paddle, it will bounce back
 					// FIXME Something wrong here
 					ballDeltaX *= -1;
+					chamthanh.play();
 				}
 			}
 
@@ -300,8 +308,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			playerTwoY = 205;
 			ballX = 235;
 			ballY = 215;
-			playerOneScore=0;
-			playerTwoScore=0;
+			playerOneScore = 0;
+			playerTwoScore = 0;
 		}
 	}
 
