@@ -44,8 +44,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	private boolean gameOver;
 
 	/** Background. */
-	private Color backgroundColor = Color.BLACK;
+	//private Color backgroundColor = Color.BLACK;
 	
+	ImageIcon imageback = new ImageIcon("Image\\giphy.gif");
 	ImageIcon imaovergame = new ImageIcon("Image\\15218205_369524973393374_1496288073_n.jpg");
 	ImageIcon imagetitle = new ImageIcon("Image\\Matrix.gif");
 	ImageIcon ponggame = new ImageIcon("Image\\ponggame2.gif");
@@ -86,7 +87,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 	/** Construct a PongPanel. */
 	public PongPanel() {
-		setBackground(backgroundColor);
+		//setBackground(backgroundColor);
 
 		// listen to key presses
 		setFocusable(true);
@@ -244,6 +245,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		} else if (playing) {
 
 			/* Game is playing */
+			g.drawImage(imageback.getImage(), 0, 0, 500, 500, null);
 
 			// set the coordinate limit
 			int playerOneRight = playerOneX + playerOneWidth;
