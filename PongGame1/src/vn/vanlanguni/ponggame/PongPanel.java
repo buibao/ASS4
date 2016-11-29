@@ -26,6 +26,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -44,6 +45,12 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 	/** Background. */
 	private Color backgroundColor = Color.BLACK;
+	
+	ImageIcon imaovergame = new ImageIcon("Image\\15218205_369524973393374_1496288073_n.jpg");
+	ImageIcon imagetitle = new ImageIcon("Image\\Matrix.gif");
+	ImageIcon ponggame = new ImageIcon("Image\\ponggame2.gif");
+	ImageIcon pressP = new ImageIcon("Image\\press  pp.gif");
+	ImageIcon restart = new ImageIcon("Image\\restart.gif");
 
 	/** State on the control keys. */
 	private boolean upPressed;
@@ -211,17 +218,29 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 		super.paintComponent(g);
 
+		
 		if (showTitleScreen) {
 
+			 // background title
+            g.drawImage(imagetitle.getImage(), 0, 0, 500, 500, null);
+
 			/* Show welcome screen */
+          
 
 			// Draw game title and start message
-			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
-			g.drawString("Pong Game", 130, 100);
+//            g.setColor(Color.red);
+//			g.setFont(new Font("NewellsHand", Font.PLAIN, 46));
+//			g.drawString("Pong Game", 130, 200);
+            
+            g.drawImage(ponggame.getImage(), 35, 75, null);
+            
 
 			// FIXME Wellcome message below show smaller than game title
-			g.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
-			g.drawString("Press 'P' to play.", 175, 400);
+//			g.setColor(Color.red);
+//            g.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
+//            g.drawString("Press 'P' to play.", 175, 400);
+            g.drawImage(pressP.getImage(), 20, 350, null);
+            
 		} else if (playing) {
 
 			/* Game is playing */
@@ -259,13 +278,13 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		} else if (gameOver) {
 
 			/* Show End game screen with winner name and score */
-
+			g.drawImage(imagetitle.getImage(), 0, 0, 500, 500, null);
 			// Draw scores
 			// TODO Set Blue color
-			g.setColor(Color.blue);
+			g.setColor(Color.white);
 			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
-			g.drawString(String.valueOf(playerOneScore), 100, 100);
-			g.drawString(String.valueOf(playerTwoScore), 400, 100);
+			g.drawString(String.valueOf(playerOneScore), 100, 60);
+			g.drawString(String.valueOf(playerTwoScore), 400, 60);
 			// Draw the winner name
 			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
 			if (playerOneScore > playerTwoScore) {
@@ -276,8 +295,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			// Draw Restart message
 			// g.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
-			g.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
-			g.drawString("Press 'space' to restart.", 175, 400);
+//			g.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
+//			g.drawString("Press 'space' to restart.", 175, 400);
+			g.drawImage(restart.getImage(), 70, 400, null);
 			// TODO Draw a restart message
 		}
 	}
