@@ -29,6 +29,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -47,7 +48,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 	/** Background. */
 	//private Color backgroundColor = Color.BLACK;
-	
+	ImageIcon imageball = new ImageIcon("Image\\ball 1.png");
 	ImageIcon imageback = new ImageIcon("Image\\giphy.gif");
 	ImageIcon imaovergame = new ImageIcon("Image\\15218205_369524973393374_1496288073_n.jpg");
 	ImageIcon imagetitle = new ImageIcon("Image\\Matrix.gif");
@@ -60,6 +61,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	ImageIcon sumpaddle = new ImageIcon("Image\\plusssssssss.png");
 	ImageIcon minuspaddle = new ImageIcon("Image\\minussssssss.png");
 	
+	ImageIcon setting = new ImageIcon("Image\\setting.gif");
 
 	/** State on the control keys. */
 	private boolean upPressed;
@@ -88,6 +90,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 	/** Speed of the paddle - How fast the paddle move. */
 	private int paddleSpeed = 5;
+	
+	private String nameplayer1;
+	private String nameplayer2;
 
 	/** Player score, show on upper left and right. */
 	private int playerOneScore;
@@ -120,16 +125,19 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	private int champaddle = 0; // iss 10
 	private boolean champaddle2 = false;
 	
-	
-
+	JLabel btnstart;
+	private static Ten_Nhan_Vat nameone, nametwo;
+	public Settinggame dialogform = new Settinggame(null, true);
 	/** Construct a PongPanel. */
 	public PongPanel() {
 		//setBackground(backgroundColor);
-
+		setLayout(null);
 		sumX = ThreadLocalRandom.current().nextInt(50, 450);
 		sumY = ThreadLocalRandom.current().nextInt(50, 450);
 		sumcX = ThreadLocalRandom.current().nextInt(50, 450);
 		sumcY = ThreadLocalRandom.current().nextInt(50, 450);
+		
+		setting();
 		
 		// listen to key presses
 		setFocusable(true);
@@ -138,6 +146,50 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		// call step() 60 fps
 		Timer timer = new Timer(1000 / 60, this);
 		timer.start();
+	}
+	public void setting() {
+		btnstart = new JLabel();
+		btnstart.setIcon(setting);
+		btnstart.setFocusable(false);
+		btnstart.setVisible(true);
+		// btnstart.setBounds(250, 250, 50, 50);
+		//btnstart.setLocation(250, 250);
+		add(btnstart);
+		btnstart.setBounds(170, 230, 150, 70);
+		// btnstart.addActionListener(new java.awt.event.ActionListener() {
+		// public void actionPerformed(java.awt.event.ActionEvent evt) {
+		//
+		// dialogform.setVisible(true);
+		//
+		//// if (nameplayer1.equals("")) {
+		//// nameplayer1 = "Player One Win !";
+		//// } else {
+		//// nameplayer1 = dialogform.nameplayerone();
+		//// }
+		//// if (nameplayer2.equals("")) {
+		//// nameplayer2 = "Player Two Win !";
+		//// } else {
+		//// nameplayer2 = dialogform.nameplayertwo();
+		//// }
+		// }
+		// });
+		btnstart.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				dialogform.setVisible(true);
+
+				if (nameplayer1.equals("")) {
+					nameplayer1 = "Player One Win !";
+				} else {
+					nameplayer1 = dialogform.nameplayerone();
+				}
+				if (nameplayer2.equals("")) {
+					nameplayer2 = "Player Two Win !";
+				} else {
+					nameplayer2 = dialogform.nameplayertwo();
+				}
+			}
+		});
+
 	}
 
 	/** Implement actionPerformed */
@@ -339,7 +391,6 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			g.setColor(Color.WHITE);
 			for (int lineY = 0; lineY < getHeight(); lineY += 50) {
 				g.drawLine(240, lineY, 240, lineY + 25);
-
 			}
 
 			// draw "goal lines" on each side
@@ -349,17 +400,38 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			// draw the scores
 			g.setColor(Color.WHITE);
 			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
-			g.drawString(String.valueOf(playerOneScore), 100, 100); // Player 1
-																	// score
-			g.drawString(String.valueOf(playerTwoScore), 400, 100); // Player 2
-																	// score
+			g.drawString(String.valueOf(playerOneScore), 110, 75); // Player 1
+			// score
+			g.drawString(String.valueOf(playerTwoScore), 375, 75); // Player 2
+			// score
+			g.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+
+			nameplayer1 = dialogform.nameplayerone();
+			if (nameplayer1.equals("")) {
+				nameplayer1 = "Player One";
+			}
+			g.drawString(nameplayer1, 90, 35);
+
+			nameplayer2 = dialogform.nameplayertwo();
+			if (nameplayer2.equals("")) {
+				nameplayer2 = "Player Two";
+			}
+			g.drawString(nameplayer2, 345, 35);
 
 			// draw the ball
-			g.setColor(Color.WHITE);
-			g.fillOval(ballX, ballY, diameter, diameter);
+			// g.setColor(Color.RED);
+			// g.fillOval(ballX, ballY, diameter, diameter);
+			// draw image ball
+			try {
+				g.drawImage(dialogform.imaball.getImage(), ballX, ballY, diameter, diameter, null);
+			} catch (Exception e) {
+				g.drawImage(imageball.getImage(), ballX, ballY, diameter, diameter, null);
+			}
 
 			// draw the paddles
+			g.setColor(dialogform.cl1);
 			g.fillRect(playerOneX, playerOneY, playerOneWidth, playerOneHeight);
+			g.setColor(dialogform.cl2);
 			g.fillRect(playerTwoX, playerTwoY, playerTwoWidth, playerTwoHeight);
 			
 			if (count15s % 15000 == 0) {
@@ -488,25 +560,28 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			/* Show End game screen with winner name and score */
 			g.drawImage(imagetitle.getImage(), 0, 0, 500, 500, null);
-			// Draw scores
-			// TODO Set Blue color
-			g.setColor(Color.white);
+
+			g.setColor(Color.WHITE);
+
 			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
 			g.drawString(String.valueOf(playerOneScore), 100, 60);
 			g.drawString(String.valueOf(playerTwoScore), 400, 60);
+
 			// Draw the winner name
 			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
+
 			if (playerOneScore > playerTwoScore) {
-				g.drawString("Player 1 Wins!", 165, 200);
+				g.drawString(nameplayer1 + " Win !", 110, 150);
 			} else {
-				g.drawString("Player 2 Wins!", 165, 200);
+				g.drawString(nameplayer2 + " Win !", 110, 150);
 			}
 
 			// Draw Restart message
 			// g.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
-//			g.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
-//			g.drawString("Press 'space' to restart.", 175, 400);
-			g.drawImage(restart.getImage(), 70, 400, null);
+			// // TODO Draw a restart message
+			// g.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
+			// g.drawString("Press 'space' to restart.", 175, 400);
+			g.drawImage(restart.getImage(), 75, 250, null);
 			// TODO Draw a restart message
 		}
 	}
@@ -518,6 +593,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		if (showTitleScreen) {
 			if (e.getKeyChar() == 'p') {
 				showTitleScreen = false;
+				btnstart.setVisible(false);
 				playing = true;
 			}
 		} else if (playing) {
@@ -531,6 +607,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 				sPressed = true;
 			}
 		} else if (gameOver && e.getKeyCode() == KeyEvent.VK_SPACE) {
+			btnstart.setVisible(true);
 			gameOver = false;
 			showTitleScreen = true;
 			playerOneY = 205;
