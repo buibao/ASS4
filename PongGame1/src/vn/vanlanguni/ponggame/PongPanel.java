@@ -25,6 +25,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -52,6 +54,12 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	ImageIcon ponggame = new ImageIcon("Image\\ponggame2.gif");
 	ImageIcon pressP = new ImageIcon("Image\\press  pp.gif");
 	ImageIcon restart = new ImageIcon("Image\\restart.gif");
+	
+	ImageIcon imageright = new ImageIcon("Image\\right2.png");
+	ImageIcon imageleft = new ImageIcon("Image\\left3.png");
+	ImageIcon sumpaddle = new ImageIcon("Image\\plusssssssss.png");
+	ImageIcon minuspaddle = new ImageIcon("Image\\minussssssss.png");
+	
 
 	/** State on the control keys. */
 	private boolean upPressed;
@@ -84,11 +92,45 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	/** Player score, show on upper left and right. */
 	private int playerOneScore;
 	private int playerTwoScore;
+	
+	private int sumX, sumY; // iss 9
+	private int sumcX, sumcY; // iss 10
+	
+	private int count15s = 15; // iss 9
+	private int count15s2 = 15;// iss 10
+	
+	private int timeToDisplay;
+	
+	
+	Random rand = new Random();
+	
+	private boolean vacham = false;// iss 9
+	private boolean vacham2 = false; // iss 10
+	
+	private static boolean lastcham = false; // iss 9
+	private static boolean lastcham2 = false; // iss 10
+	
+	private static boolean check; // iss 9
+	private static boolean check2; // iss 10
+	
+	//private boolean selectima = false;
+
+	private int countima = 1; // iss 9 10
+	
+	private int champaddle = 0; // iss 10
+	private boolean champaddle2 = false;
+	
+	
 
 	/** Construct a PongPanel. */
 	public PongPanel() {
 		//setBackground(backgroundColor);
 
+		sumX = ThreadLocalRandom.current().nextInt(50, 450);
+		sumY = ThreadLocalRandom.current().nextInt(50, 450);
+		sumcX = ThreadLocalRandom.current().nextInt(50, 450);
+		sumcY = ThreadLocalRandom.current().nextInt(50, 450);
+		
 		// listen to key presses
 		setFocusable(true);
 		addKeyListener(this);
@@ -211,6 +253,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		}
 
 		// stuff has moved, tell this JPanel to repaint itself
+		count15s += 15;
+		count15s2 += 15;
+		
 		repaint();
 	}
 
@@ -277,6 +322,130 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			// draw the paddles
 			g.fillRect(playerOneX, playerOneY, playerOneWidth, playerOneHeight);
 			g.fillRect(playerTwoX, playerTwoY, playerTwoWidth, playerTwoHeight);
+			
+			if (count15s % 15000 == 0) {
+				// g.clearRect(sumX, sumY, sumpaddle.getIconWidth(),
+				// sumpaddle.getIconHeight());
+				countima++;
+
+				
+
+				sumX = ThreadLocalRandom.current().nextInt(50, 450);
+				sumY = ThreadLocalRandom.current().nextInt(50, 450);
+
+				// g.drawImage(sumpaddle.getImage(), sumX, sumY, null);
+				vacham = false;
+				
+		
+			}
+			if (vacham == false) {
+				if (countima % 2 == 0) {
+					g.drawImage(sumpaddle.getImage(), sumX, sumY, null);
+					
+				} else {
+					g.drawImage(minuspaddle.getImage(), sumX, sumY, null);
+				}
+
+			}
+			int xwA1 = sumX + sumpaddle.getIconWidth() / 2;
+			int xwB1 = ballX + diameter / 2;
+			int wwAB1 = (sumpaddle.getIconWidth() + diameter) / 2;
+
+			// =================================== Huong Y
+			int yHA1 = sumY + sumpaddle.getIconHeight() / 2;
+			int yHB1 = ballY + diameter / 2;
+			int HHAB1 = (sumpaddle.getIconHeight() + diameter) / 2;
+
+			// dieu kien khi cham
+			if (((Math.abs(xwA1 - xwB1) < Math.abs(wwAB1)) && (Math.abs(yHA1 - yHB1) < Math.abs(HHAB1)))) {
+				if (lastcham == false) {
+					if (check == true) {
+						if (countima % 2 == 0) {
+							if (playerOneHeight <= 50) {
+								playerOneHeight = playerOneHeight + 25;
+							} else {
+								playerOneHeight = playerOneHeight;
+							}
+						}
+
+						if (countima % 2 != 0) {
+							if (playerOneHeight <= 25) {
+								playerOneHeight = playerOneHeight;
+							} else {
+								playerOneHeight = playerOneHeight - 25;
+							}
+						}
+					}
+
+					if (check == false) {
+						if (countima % 2 == 0) {
+							if (playerTwoHeight <= 50) {
+								playerTwoHeight = playerTwoHeight + 25;
+							} else {
+								playerTwoHeight = playerTwoHeight;
+							}
+						}
+
+						if (countima % 2 != 0) {
+							if (playerTwoHeight <= 25) {
+								playerTwoHeight = playerTwoHeight;
+							} else {
+								playerTwoHeight = playerTwoHeight - 25;
+							}
+						}
+
+					}
+				}
+
+				vacham = true;
+
+			}
+
+			// ISS 9 END
+			// ISS 9 END	
+			// ISS 10
+			if (count15s2 % 10000 == 0) {
+				// g.clearRect(sumX, sumY, sumpaddle.getIconWidth(),
+				// sumpaddle.getIconHeight());
+				countima++;
+
+				
+
+				sumcX = ThreadLocalRandom.current().nextInt(50, 450);
+				sumcY = ThreadLocalRandom.current().nextInt(50, 450);
+
+				// g.drawImage(sumpaddle.getImage(), sumX, sumY, null);
+				vacham2 = false;
+				
+				
+			}
+			if (vacham2 == false) {
+				if (countima % 2 == 0) {
+					g.drawImage(imageleft.getImage(), sumcX, sumcY, null);
+					
+				} else {
+					g.drawImage(imageright.getImage(), sumcX, sumcY, null);
+				}
+
+			}
+			
+			
+			int xwA2 = sumcX + imageleft.getIconWidth() / 2;
+			int xwB2 = ballX + diameter / 2;
+			int wwAB2 = (imageleft.getIconWidth() + diameter) / 2;
+
+			// =================================== Huong Y
+			int yHA2 = sumcY + imageleft.getIconHeight() / 2;
+			int yHB2 = ballY + diameter / 2;
+			int HHAB2 = (imageleft.getIconHeight() + diameter) / 2;
+
+			// dieu kien khi cham
+			if (((Math.abs(xwA2 - xwB2) < Math.abs(wwAB2)) && (Math.abs(yHA2 - yHB2) < Math.abs(HHAB2)))) {
+				
+			vacham2 = true;
+
+			}
+			
 		} else if (gameOver) {
 
 			/* Show End game screen with winner name and score */
