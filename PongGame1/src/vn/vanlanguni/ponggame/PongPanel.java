@@ -39,7 +39,7 @@ import javax.swing.Timer;
  *
  */
 public class PongPanel extends JPanel implements ActionListener, KeyListener {
-	private SoundPlayer chamthanh, chamnhanvat;
+	private SoundPlayer chamthanh, getdiem, chamnhanvat, startgame, overgame, playinggame;
 	private static final long serialVersionUID = -1097341635155021546L;
 
 	private boolean showTitleScreen = true;
@@ -130,6 +130,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	public Settinggame dialogform = new Settinggame(null, true);
 	/** Construct a PongPanel. */
 	public PongPanel() {
+		startgame = new SoundPlayer(new File("Sounds\\a better day.wav"));
+        overgame = new SoundPlayer(new File("Sounds\\All I Ever Wanted - Basshunter _ Bài hát, lyrics.wav"));
+        playinggame = new SoundPlayer(new File("Sounds\\Kalimba.wav"));
 		//setBackground(backgroundColor);
 		setLayout(null);
 		sumX = ThreadLocalRandom.current().nextInt(50, 450);
@@ -142,7 +145,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		// listen to key presses
 		setFocusable(true);
 		addKeyListener(this);
-
+		 startgame.playMusic();
 		// call step() 60 fps
 		Timer timer = new Timer(1000 / 60, this);
 		timer.start();
@@ -201,6 +204,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	public void step() {
 
 		if (playing) {
+			startgame.stop();
 
 			/* Playing mode */
 
@@ -281,6 +285,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 					if (playerTwoScore == 3) {
 						playing = false;
 						gameOver = true;
+						overgame.playMusic();
+                        playinggame.stop();
 					}
 					ballX = 235;
 					ballY = 215;
@@ -361,6 +367,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 					if (playerOneScore == 3) {
 						playing = false;
 						gameOver = true;
+						overgame.playMusic();
+                        playinggame.stop();
 					}
 					ballX = 235;
 					ballY = 215;
@@ -636,6 +644,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 				showTitleScreen = false;
 				btnstart.setVisible(false);
 				playing = true;
+				playinggame.playMusic();
 			}
 		} else if (playing) {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -648,6 +657,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 				sPressed = true;
 			}
 		} else if (gameOver && e.getKeyCode() == KeyEvent.VK_SPACE) {
+			startgame.playMusic();
+
+            overgame.stop();
 			btnstart.setVisible(true);
 			gameOver = false;
 			showTitleScreen = true;
